@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title%></title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/public/css/stylesheet.css"/>
+</head>
+<body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="display-4">Evaluation Form</h1><BR>
+          <p class="lead">Hi, <%= fullName%>. You're already logged in. Please fill the form below.</p>
+        <form method="post">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" value="<%=email%>"disabled="true"/>
+            </div>
+              <div class="mb-3">
+                <label for="courseCode" class="form-label">Course Code</label>
+                <input type="text" class="form-control" name="courseCode"/>
+              </div>
+              <div class="mb-3">
+                <label for="courseName" class="form-label">Course Name</label>
+                <input type="text" class="form-control" name="courseName"/>
+              </div>
+              <div class="mb-3">
+                <label for="program" class="form-label">Program</label>
+                <input type="text" class="form-control" name="program"/>
+              </div>
+              <div class="mb-3">
+                <label for="semester" class="form-label">Semester</label>
+                <input type="text" class="form-control" name="semester"/>
+              </div>
+              <div class="mb-3">
+                <label for="comment" class="form-label">Comment</label>
+                <textarea class="form-control" rows="5" name="comment"></textarea>
+              </div>
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+          </form>
+        </div>
+    </div>
+</body>
+
+</html>
