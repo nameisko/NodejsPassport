@@ -21,17 +21,10 @@ const StudentSchema = new Schema({
         // Validate the 'password' value length
         validate: [
             (password) => password.length >= 6,
-            'Password Should Be Longer'
+            'Password should be at least 6 characters'
         ]
     }
 });
-
-StudentSchema.methods.comparePassword = (candidatePassword, cb) => {
-    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
-};
 
 StudentSchema.virtual('fullName')
   .get(function() {

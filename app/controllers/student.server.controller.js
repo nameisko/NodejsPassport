@@ -54,7 +54,6 @@ exports.renderSignUpPage = (req, res) => {
 exports.renderLogin = (req, res) => {
 	if(!req.user){
 		res.render('login', {
-			title: "Login",
 			messages: req.flash('error') || req.flash('info')
 		});
 	}
@@ -108,7 +107,7 @@ exports.authenticate2 = function(req, res, next) {
 		failureRedirect: '/login',
 		failureFlash: true // allow flash messages
 	})(req, res, next);
-};
+}
 
 exports.authenticate = (req, res) => {
 	var email = req.body.email;

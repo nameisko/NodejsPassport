@@ -2,40 +2,52 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title%></title>
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/public/css/stylesheet.css"/>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= title%>
+  </title>
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/public/css/stylesheet.css" />
 </head>
 
 <body>
-    <div class="tableContainer">
-      <p class="lead"><%=email %> has <%= count%> comment(s)</p>
-      <table class="table table-hover">
-        <thead>
+  <div id="background"></div>
+  <div class="tableContainer" id="paddingTop">
+    <div class="card"><br>
+      <div class="card-body">
+        <h5 class="card-title">
+          <p class="lead">
+            <%=email %> has <%= count%> comment(s)
+          </p>
+        </h5>
+        <table class="table table-hover">
+          <thead>
             <tr>
               <th scope="col">Course Code</th>
               <th scope="col">Course Name</th>
               <th scope="col">Comment</th>
             </tr>
           </thead>
-        <% comments.forEach(function(comment){ %>
+          <% comments.forEach(function(comment){ %>
             <tr>
-                <td><%= comment.courseCode %>
-                </td>
-                <td>
-                  <%= comment.courseName %>
+              <td>
+                <%= comment.courseCode %>
+              </td>
+              <td>
+                <%= comment.courseName %>
 
-                </td>
-                <td>
+              </td>
+              <td>
                 <%= comment.comment %>
-                </td>
+              </td>
             </tr>
             <% })%>
-    </table>
-</div>
+        </table>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

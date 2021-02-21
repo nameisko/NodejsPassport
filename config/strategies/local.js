@@ -27,20 +27,20 @@ module.exports = () => {
 			if(student){
 				bcrypt.compare(password, student.password, (err, isMatch) => {
 					//if error than throw error
-					if (err) throw err;
-	
+					if (err) {
+						return done(err);
+					}
 					//if both match than you can do anything
-					if (isMatch) {
+					if (!isMatch) {
+						return done(null, false, { message: "Invalid email or password"});
+					}
+					else{
 						return done(null, student);
-					} else {
-						return done(null, false, {
-							message: "Invalid credential",
-						});
 					}
 				})
 			}
 			// Otherwise, continue to the next middleware with the user object
-			return done(null, student);
+			//return done(null, student);
 		});
 	}));
 };

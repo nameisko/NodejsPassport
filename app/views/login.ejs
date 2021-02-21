@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title%></title>
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/public/css/stylesheet.css"/>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/public/css/stylesheet.css" />
 </head>
+
 <body>
-    <div class="container">
-      <div class="jumbotron">
-        <h1 class="display-4">Login</h1><BR>
-          <p class="lead">Please login before you can submit/view your comment(s).</p>
-          <% for(var i in messages) {%>
-            <div class="flash"><%=messages[i]%></div>
-            <% } %>
-        <form method="post">
+  <div id="background"></div>
+  <div class="container" id="paddingTop">
+    <div class="jumbotron">
+      <h1 class="display-4">Login</h1><BR>
+      <p class="lead">Please login before you can submit/view your comment(s).</p>
+      <% for(var i in messages) {%>
+        <div class="flash">* <%=messages[i]%>
+        </div>
+        <% } %>
+          <form method="post">
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" name="email" required/>
+              <input type="email" class="form-control" name="email" required />
             </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" required/>
-              </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button><br>
+            No account? <a href="/signUp">Create an account</a>
           </form>
-        </div>
     </div>
+  </div>
 </body>
+
 </html>

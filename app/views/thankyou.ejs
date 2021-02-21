@@ -6,8 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title%></title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/public/css/stylesheet.css"/>
 </head>
 <body>
-    <h1>Thank you <%=email%> for submitting a course evaluation for <%=courseCode%></h1>
+    <div id="background"></div>
+    <div class="tableContainer" id="paddingTop">
+        <div class="card">
+            <div class="card-body">
+            <h1 class="display-4">Comment submitted!</h1>
+            <p class="lead">Thank you <%=email%> for submitting a course evaluation for <%=courseCode%></p>
+            </p>
+            <a class="btn btn-primary btn-lg" href="/" role="button">Home</a>
+          </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -13,13 +13,14 @@
 </head>
 
 <body>
-  <div class="container">
+  <div id="background"></div>
+  <div class="container" id="paddingTop">
     <div class="jumbotron">
       <h1 class="display-4">Sign Up</h1><BR>
       <p class="lead">
         <% errorMessages.forEach((msg)=> { %>
           <div class="flash">
-            <%= msg %>
+            * <%= msg %>
           </div>
           <% }) %>
       </p>
@@ -40,7 +41,8 @@
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" name="password" minlength="6" required />
         </div>
-        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <button type="submit" class="btn btn-primary">Sign Up</button><br>
+        Have an account? <a href="/login">Login</a>
       </form>
     </div>
   </div>
