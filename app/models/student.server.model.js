@@ -3,48 +3,44 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 
-// Define a new 'StudentSchema'
 const StudentSchema = new Schema({
     firstName: String,
     lastName: String,
     email: {
         type: String,
-        // Set an email index
         index: true,
         unique: true,
-        // Validate the email format
         match: [/.+\@.+\..+/, 'Email is invalid']
     },
-
     password: {
         type: String,
-        // Validate the 'password' value length
         validate: [
             (password) => password.length >= 6,
             'Password should be at least 6 characters'
         ]
-    }
+    },
+    studentNumber: {
+        type: Number,
+        min: 9
+    },
+    major: String
 });
 
 StudentSchema.virtual('fullName')
-  .get(function() {
-    return this.firstName + ' ' + this.lastName;
-  })
+    .get(() => {
+        return this.firstName + ' ' + this.lastName;
+    })
 
 StudentSchema.pre('save', function (next) {
     var student = this;
 
-    // only hash the password if it has been modified (or is new)
     if (!student.isModified('password')) return next();
 
-    // generate a salt
     bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
         if (err) return next(err);
 
-        // hash the password using our new salt
         bcrypt.hash(student.password, salt, function (err, hash) {
             if (err) return next(err);
-            // override the cleartext password with the hashed one
             student.password = hash;
             next();
         });
@@ -57,7 +53,7 @@ StudentSchema.set('toJSON', {
     virtuals: true
 });
 
-StudentSchema.set('toObject', { 
+StudentSchema.set('toObject', {
     getters: true,
     virtuals: true
 });

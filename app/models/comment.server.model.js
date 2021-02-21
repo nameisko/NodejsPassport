@@ -8,7 +8,7 @@ const CommentSchema = new Schema({
     courseCode: String,
     courseName: String,
     program: String,
-    semester: String, 
+    semester: String,
     comment: String,
     date: {
         type: Date,

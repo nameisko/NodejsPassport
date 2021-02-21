@@ -24,7 +24,7 @@ module.exports = () => {
 				});
 			}
 
-			if(student){
+			if (student) {
 				bcrypt.compare(password, student.password, (err, isMatch) => {
 					//if error than throw error
 					if (err) {
@@ -32,9 +32,9 @@ module.exports = () => {
 					}
 					//if both match than you can do anything
 					if (!isMatch) {
-						return done(null, false, { message: "Invalid email or password"});
+						return done(null, false, { message: "Invalid email or password" });
 					}
-					else{
+					else {
 						return done(null, student);
 					}
 				})
