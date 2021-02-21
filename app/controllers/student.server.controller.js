@@ -1,6 +1,28 @@
 const Student = require('mongoose').model('Student');
+const passport = require('passport');
 
-exports.render = function(req, res) {
+const getErrorMessage = (err) => {
+	let message = '';
+
+	if (err.code) {
+		switch (err.code) {
+			case 11001:
+			case 11000:
+				message = 'User already exist';
+				break;
+			default:
+				message = 'Unknown error';
+		}
+	}
+	else {
+		for (const errName in err.errors) {
+			if (err.errors[errName].message) message = err.errors[errName].message;
+		}
+	}
+	return message;
+}
+
+exports.render = function (req, res) {
 	// If the session's 'lastVisit' property is set, print it out in the console 
 	if (req.session.lastVisit) {
 		console.log(req.session.lastVisit);
@@ -15,64 +37,100 @@ exports.render = function(req, res) {
 	});
 };
 
+exports.signOut = (req, res) => {
+	req.logout();
+	res.redirect('/');
+}
+
 exports.renderSignUpPage = (req, res) => {
+	let message = req.flash('error');
+
 	res.render('signUp', {
-		title: 'Sign Up'
+		title: 'Sign Up',
+		errorMessages: message
 	});
 };
 
 exports.renderLogin = (req, res) => {
-	var session = req.session;
-	if (session.email) {
-		res.redirect('/commentForm');
-		return;
+	if(!req.user){
+		res.render('login', {
+			title: "Login",
+			messages: req.flash('error') || req.flash('info')
+		});
 	}
-	res.render('login', {
-		title: "Login"
-	});
+	else{
+		res.render('commentForm', {
+			fullName: req.user.fullName,
+			email: req.user.email
+		})
+	}
 }
 
 exports.createStudent = (req, res, next) => {
-	req.session.destroy();
-	try {
+
+	if (!req.student) {
 		const student = new Student(req.body);
+
 		student.save((err) => {
 			if (err) {
-				return next(err);
-			} else {
-				//res.json(student);
-				res.redirect('/login');
+				const message = getErrorMessage(err);
+				req.flash('error', message);
+				return res.redirect('/signUp');
 			}
-		});
-	} catch {
-		res.redirect('/signUp');
+			res.redirect('/login');
+		})
 	}
+	else{
+		res.redirect('/');
+	}
+}
+
+// exports.createStudent = (req, res, next) => {
+// 	req.session.destroy();
+// 	try {
+// 		const student = new Student(req.body);
+// 		student.save((err) => {
+// 			if (err) {
+// 				return next(err);
+// 			} else {
+// 				//res.json(student);
+// 				res.redirect('/login');
+// 			}
+// 		});
+// 	} catch {
+// 		res.redirect('/signUp');
+// 	}
+// };
+
+exports.authenticate2 = function(req, res, next) {
+	passport.authenticate('local', {
+		successRedirect: '/commentForm',
+		failureRedirect: '/login',
+		failureFlash: true // allow flash messages
+	})(req, res, next);
 };
 
 exports.authenticate = (req, res) => {
-	var session = req.session;
 	var email = req.body.email;
 	var password = req.body.password;
-	var _id;
 	let fullName;
 
 	Student.findOne({ email: email }, (err, student) => {
 		if (err) {
-			//return getErrorMessage(err); 
+			return done(err);
 		}
-		if(!student){
-			res.redirect('/login');
-			return;
+		if (!student) {
+			return res.redirect('/login');
+			
 		}
-		_id = student._id;
 		req.id = student._id;
 		fullName = student.fullName;
 		student.comparePassword(password, (err, isMatch) => {
 			if (err) return;
-			if(isMatch){
+			if (isMatch) {
 				session.email = email;
 				session.fullName = fullName;
-				if(session.pageVisited == 'comments'){
+				if (session.pageVisited == 'comments') {
 					session.pageVisited = '';
 					res.redirect('/comments');
 					return;
@@ -83,7 +141,7 @@ exports.authenticate = (req, res) => {
 					title: "Evaluation Form"
 				})
 			}
-			else{
+			else {
 				res.redirect('/login');
 			}
 		});

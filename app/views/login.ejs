@@ -13,6 +13,9 @@
       <div class="jumbotron">
         <h1 class="display-4">Login</h1><BR>
           <p class="lead">Please login before you can submit/view your comment(s).</p>
+          <% for(var i in messages) {%>
+            <div class="flash"><%=messages[i]%></div>
+            <% } %>
         <form method="post">
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>

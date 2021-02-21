@@ -6,13 +6,15 @@ const compress = require('compression');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const session = require('express-session');
-const flash = require('express-flash');
+const flash = require('connect-flash');
 const passport = require('passport');
 
 // Define the Express configuration method
 module.exports = function() {
 	// Create a new Express application instance
 	const app = express();
+
+	app.use(flash());
 
 	// Use the 'NDOE_ENV' variable to activate the 'morgan' logger or 'compress' middleware
 	if (process.env.NODE_ENV === 'development') {
@@ -43,18 +45,16 @@ module.exports = function() {
 	app.set('views', './app/views');
 	app.set('view engine', 'ejs');
 
-	// Load the routing files
-	require('../app/routes/student.server.routes.js')(app);
-	require('../app/routes/comment.server.routes.js')(app);
+	app.use(passport.initialize());
+	app.use(passport.session());
 
 	// Configure static file serving
 	app.use(express.static('./public'));
     app.use(express.static('./'));
 	
-	app.use(flash());
-
-	app.use(passport.initialize());
-	app.use(passport.session());
+	// Load the routing files
+	require('../app/routes/student.server.routes.js')(app);
+	require('../app/routes/comment.server.routes.js')(app);
 
 	// Return the Express application instance
 	return app;

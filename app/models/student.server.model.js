@@ -26,13 +26,8 @@ const StudentSchema = new Schema({
     }
 });
 
-// Create the 'authenticate' instance method
-StudentSchema.methods.authenticate = (password) => {
-    return this.password === password;
-};
-
-StudentSchema.methods.comparePassword = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+StudentSchema.methods.comparePassword = (candidatePassword, cb) => {
+    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
         if (err) return cb(err);
         cb(null, isMatch);
     });
@@ -62,11 +57,7 @@ StudentSchema.pre('save', function (next) {
         });
     });
 });
-/**
-StudentSchema.methods.hashPassword = (password) => {
-    return crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
-}
- */
+
 // Configure the 'UserSchema' to use getters and virtuals when transforming to JSON
 StudentSchema.set('toJSON', {
     getters: true,

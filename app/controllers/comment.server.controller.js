@@ -2,22 +2,10 @@ const Student = require('mongoose').model('Student');
 const Comment = require('mongoose').model('Comment');
 
 exports.renderCommentForm = (req, res) => {
-    var session = req.session;
-    var _id = session.id;
-    var email = session.email;
-    let fullName = session.fullName;
-    session.id = _id;
-    if (email) {
-
-        res.render('commentForm', {
-            fullName: fullName,
-            email: email,
-            title: "Evaluation Form"
-        })
-    }
-    else {
-        res.redirect('/');
-    }
+    res.render('commentForm', {
+        fullName: req.user.fullName,
+        email: req.user.email
+    });
 }
 
 exports.renderThankYou = (req, res) => {
